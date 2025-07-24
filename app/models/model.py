@@ -11,9 +11,9 @@ class UserRole(enum.Enum):
     admin = "admin"
 
 class UrgencyLevel(enum.Enum):
-    high = "high"
-    medium = "medium"
-    low = "low"
+    high = "High"
+    medium = "Medium"
+    low = "Low"
 
 # --- Models ---
 
@@ -21,8 +21,11 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True)
-    email = Column(String(255), unique=True, nullable=False)
-    name = Column(String(100))
+    # email = Column(String(255), unique=True, nullable=False)
+    username = Column(String(100), unique=True, nullable=False)
+    hashed_password = Column(String(100), nullable=False) # Assuming password is hashed
+    first_name = Column(String(100))
+    last_name = Column(String(100))
     role = Column(Enum(UserRole), default=UserRole.user, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 

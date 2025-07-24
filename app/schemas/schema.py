@@ -11,19 +11,22 @@ class UserRole(str, Enum):
     admin = "admin"
 
 class UrgencyLevel(str, Enum):
-    high = "high"
-    medium = "medium"
-    low = "low"
+    high = "High"
+    medium = "Medium"
+    low = "Low"
 
 
 # --- User Schemas ---
 
 class UserBase(BaseModel):
-    email: EmailStr
-    name: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
 
 class UserCreate(UserBase):
-    password: str  # optional: add password hashing in backend
+    username: str
+    password: str
+    role: Optional[UserRole] = UserRole.user
+    created_at: datetime
 
 class UserRead(UserBase):
     id: int
@@ -38,20 +41,22 @@ class UserRead(UserBase):
 class MessageBase(BaseModel):
     subject: Optional[str] = None
     body: str
-    urgency: Optional[UrgencyLevel] = None 
+    # urgency: Optional[UrgencyLevel] = None 
     in_reply_to: Optional[int] = None  # For replies
 
 # --- Message Create Schema (Children) ---
 class MessageCreate(MessageBase):
-    receiver_id: int
+    receiver_username: str
+    # urgency: UrgencyLevel
 
 class MessageRead(MessageBase):
     id: int
     sender_id: int
-    receiver_id: int
+    # receiver_username: str
     sent_at: datetime
     is_read: bool
     # is_archived: bool
+    urgency: UrgencyLevel
     is_deleted: bool
 
     model_config = ConfigDict(from_attributes=True)

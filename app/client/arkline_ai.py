@@ -1,6 +1,6 @@
 from groq import Groq
 from dotenv import load_dotenv
-from app.utils.extract_json import extract_clean_json
+from app.utils.util import extract_clean_json
 from app.client.prompts.arkline_prompts import SYSTEM_BASE_PROMPT, BEHAVIOR_ONE_SHOT_MESSAGE
 import os
 
@@ -18,7 +18,7 @@ class ArklineAI:
                 "properties": {
                     "urgency": {
                         "type": "string",
-                        "enum": ["High", "Medium", "Low", "Unknown"]
+                        "enum": ["High", "Medium", "Low"]
                     }
                 },
                 "required": ["urgency"]
